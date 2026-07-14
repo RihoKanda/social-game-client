@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using SocialGameClient.Auth;
 
 namespace SocialGameClient.API
 {
@@ -19,7 +20,7 @@ namespace SocialGameClient.API
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
-                retrun;
+                return;
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -64,7 +65,7 @@ namespace SocialGameClient.API
             SetAuthHeader(req);
 
             yield return req.SendWebRequest();
-            HandleResponse(req. onSuccess, onError);
+            HandleResponse(req, onSuccess, onError);
         }
 
         private void SetAuthHeader(UnityWebRequest req)

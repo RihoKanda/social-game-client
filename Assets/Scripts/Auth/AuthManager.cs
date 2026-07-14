@@ -1,7 +1,5 @@
 using UnityEngine;
 using SocialGameClient.API;
-using System.IO.Pipes;
-using System.Reflection;
 
 // 端末IDの生成　保存　トークン保持　起動時の自動ログイン
 namespace SocialGameClient.Auth
@@ -34,8 +32,8 @@ namespace SocialGameClient.Auth
         {
             string deviceId = SystemInfo.deviceUniqueIdentifier;
 
-            AnonymousPipeClientStream.Instance.Login(deviceId,
-                onSuccess: ResolveEventArgs =>
+            ApiClient.Instance.Login(deviceId,
+                onSuccess: res =>
                 {
                     Token = res.token;
                     UserId = res.user_id;

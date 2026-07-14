@@ -48,7 +48,7 @@ namespace SocialGameClient.Game
             SetStatus("受け取り中...");
 
             ApiClient.Instance.Claim(
-                onSuccess: ReadResult =>
+                onSuccess: result =>
                 {
                     coinText.text = $"コイン: {ReadResult.new_coin}";
                     pendingText.text = "未受取り: 0";
@@ -65,7 +65,7 @@ namespace SocialGameClient.Game
 
         private void SetStatus(string message)
         {
-            if (statusText != null) statusText.text = Message;
+            if (statusText != null) statusText.text = message;
         }
     }
 }
