@@ -1,16 +1,35 @@
 using UnityEngine;
 
-public class VolumeManager : MonoBehaviour
+/// 音量設定　シーンまたいで保持
+namespace SocialGameClient.Core
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class VolumeManager : MonoBehaviour
     {
-        
-    }
+        public static VolumeManager Instance { get; private set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private const string VolumePrefsKey = "master_volume";
+        public float CurrentVolume { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            CurrentVolume = PlayerPrefs.GetFloat(VolumePrefsKey, 1f);
+            AudioListener.volume = CurrentVolume;
+        }
+
+        public void SetVolume(float value)
+        {
+            CurrentVolume = value;
+            AudioListener.volume = value;
+            PlayerPrefs.SetFloat(VolumePrefsKey, value);
+            PlayerPrefs.Save();
+        }
     }
 }
