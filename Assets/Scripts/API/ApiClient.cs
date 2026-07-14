@@ -12,7 +12,7 @@ namespace SocialGameClient.API
         public static ApiClient Instance { get; private set; }
 
         // エディタ→localhost　実機→PCのローカルIPに変更
-        [Serializable] private string baseUrl = "http://localhost:8080";
+        [SerializeField] private string baseUrl = "http://localhost:8080";
 
         private void Awake()
         {
