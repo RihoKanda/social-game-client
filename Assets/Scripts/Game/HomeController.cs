@@ -50,7 +50,7 @@ namespace SocialGameClient.Game
             ApiClient.Instance.Claim(
                 onSuccess: result =>
                 {
-                    coinText.text = $"コイン: {ReadResult.new_coin}";
+                    coinText.text = $"コイン: {result.new_coin}";
                     pendingText.text = "未受取り: 0";
                     SetStatus($"{result.gained} コイン獲得");
                     claimButton.interactable = true;
