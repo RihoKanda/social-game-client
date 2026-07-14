@@ -3,6 +3,7 @@ using SocialGameClient.API;
 using System.IO.Pipes;
 using System.Reflection;
 
+// 端末IDの生成　保存　トークン保持　起動時の自動ログイン
 namespace SocialGameClient.Auth
 {
     public class AuthManager : MonoBehaviour
