@@ -4,68 +4,45 @@ using TMPro;
 using SocialGameClient.API;
 using SocialGameClient.Auth;
 
+/// ホーム画面コイン表示　
 namespace SocialGameClient.Game
 {
     public class HomeController : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI coinText;
-        [SerializeField] private TextMeshProUGUI pendingText;
-        [SerializeField] private TextMeshProUGUI statusText;
-        [SerializeField] private Button claimButton;
+
+        [Header("スタブ(未実装)")]
+        [SerializeField] private Button trainingButton;      // 育成
+        [SerializeField] private Button shopButton;          // ショップ
+        [SerializeField] private Button atkUpButton;         // 攻撃力UP
+        [SerializeField] private Button hpUpButton;          // 体力UP
+        [SerializeField] private Button healUpButton;        // 回復力UP
+
+        private long currentCoin;
 
         private void Start()
         {
-            claimButton.interactable = false;
-            SetStatus("ログイン中...");
+            trainingButton.onClick.AddListener(() => Debug.Log("育成機能は未実装です"));
+            shopButton.onClick.AddListener(() => Debug.Log("ショップ機能は未実装です"));
+            atkUpButton.onClick.AddListener(() => Debug.Log("攻撃力UPは未実装です"));
+            hpUpButton.onClick.AddListener(() => Debug.Log("体力UPは未実装です"));
+            healUpButton.onClick.AddListener(() => Debug.Log("回復力UPは未実装です"));
 
-            AuthManager.Instance.Login(
-                onSuccess: RefreshState,
-                onError: err => SetStatus("ログイン失敗: " + err)
-            );
-
-            claimButton.onClick.AddListener(OnClaimClicked);
+            RefreshFromServer();
         }
 
-        private void RefreshState()
+        public void RefreshFromServer()
         {
-            SetStatus("読み込み中...");
-
-            ApiClient.Instance.GetState(
-                onSuccess: state =>
-                {
-                    coinText.text = $"コイン: {state.coin}";
-                    pendingText.text = $"未受取り: {state.pending_gain}";
-                    claimButton.interactable = true;
-                    SetStatus("");
-                },
-                onError: err => SetStatus("取得失敗: " + err)
+            SocialGameClient.API.ApiClient.Instance.GetState(
+                onSuccess: state => SetCoin(state.coin),
+                onError: err => Debug.LogWarning("コイン取得失敗: " + err)
             );
         }
 
-        private void OnClaimClicked()
+        public void SetCoin(long coin)
         {
-            claimButton.interactable = false;
-            SetStatus("受け取り中...");
-
-            ApiClient.Instance.Claim(
-                onSuccess: result =>
-                {
-                    coinText.text = $"コイン: {result.new_coin}";
-                    pendingText.text = "未受取り: 0";
-                    SetStatus($"{result.gained} コイン獲得");
-                    claimButton.interactable = true;
-                },
-                onError: err =>
-                {
-                    SetStatus("受け取り失敗: " + err);
-                    claimButton.interactable = true;
-                }
-            );
-        }
-
-        private void SetStatus(string message)
-        {
-            if (statusText != null) statusText.text = message;
+            currentCoin = coin;
+            coinText.text = $"コイン: {currentCoin}";
         }
     }
 }
