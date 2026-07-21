@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.UIElements;
 
 /// サーバーが返すJSONを受け取る
 namespace SocialGameClient.API
@@ -36,5 +37,13 @@ namespace SocialGameClient.API
     public class ErrorResponse
     {
         public string error;
+    }
+
+    [Serializable]
+    public class GachaDrawResponse
+    {
+        public int character_id;
+        public string character_name;
+        public long coin_spent;
     }
 }

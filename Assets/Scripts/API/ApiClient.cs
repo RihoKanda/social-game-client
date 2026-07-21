@@ -42,6 +42,11 @@ namespace SocialGameClient.API
             StartCoroutine(PostCoroutine<ClaimResponse>("/user/claim", null, withAuth: true, onSuccess, onError));
         }
 
+        public void DrawGacha(Action<GachaDrawResponse> onSuccess, Action<string> onError)
+        {
+            StartCoroutine(PostCoroutine<GachaDrawResponse>("/gacha/draw", null, withAuth: true, onSuccess, onError));
+        }
+
         private IEnumerator PostCoroutine<T>(string path, string jsonBody, bool withAuth,
             Action<T> onSuccess, Action<string> onError)
         {
